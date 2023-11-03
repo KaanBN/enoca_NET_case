@@ -12,6 +12,11 @@ namespace enoca_NET_case.Repositories
             _context = context;
         }
 
+        Order IOrderRepository.AddOrder(Order order)
+        {
+            return _context.Orders.Add(order).Entity;
+        }
+
         List<Order> IOrderRepository.GetAllOrders()
         {
             return _context.Orders.ToList();

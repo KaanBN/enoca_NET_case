@@ -6,5 +6,8 @@ namespace enoca_NET_case.Repositories
     {
         List<Order> GetAllOrders();
 
+        //add order
+        Order AddOrder(Order order);
+
     }
 }
