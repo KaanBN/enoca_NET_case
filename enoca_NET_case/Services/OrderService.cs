@@ -15,20 +15,17 @@ namespace enoca_NET_case.Services
 
         public void AddOrder(OrderDto orderDto)
         {
-            var order = new Order
-            {
-                CarrierId = orderDto.CarrierId,
-                OrderDesi = orderDto.OrderDesi,
-                OrderDate = orderDto.OrderDate,
-                OrderCarrierCost = orderDto.OrderCarrierCost
-            };
-
-            _orderRepository.AddOrder(order);
+            _orderRepository.AddOrder(orderDto);
         }
 
         public List<Order> GetAllOrders()
         {
             return _orderRepository.GetAllOrders();
+        }
+
+        public void DeleteOrder(int id)
+        {
+            _orderRepository.DeleteOrder(id);
         }
     }
 }

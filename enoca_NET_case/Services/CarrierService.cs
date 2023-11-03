@@ -15,17 +15,22 @@ namespace enoca_NET_case.Services
 
         public void CreateCarrier(CarrierDto carrierDto)
         {
-            var carrier = new Carrier
-            {
-                CarrierName = carrierDto.CarrierName,
+            _carrierRepository.CreateCarrier(carrierDto);
+        }
 
-            };
-            _carrierRepository.CreateCarrier(carrier);
+        public void DeleteCarrier(int id)
+        {
+            _carrierRepository.DeleteCarrier(id);
         }
 
         public List<Carrier> GetAllCarriers()
         {
             return _carrierRepository.GetAllCarriers();
+        }
+
+        public void UpdateCarrier(int id, CarrierDto carrierDto)
+        {
+            _carrierRepository.UpdateCarrier(id,carrierDto);
         }
     }
 }

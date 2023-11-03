@@ -8,5 +8,7 @@ namespace enoca_NET_case.Services
         List<Order> GetAllOrders();
 
         void AddOrder(OrderDto orderDto);
+
+        void DeleteOrder(int id);
     }
 }

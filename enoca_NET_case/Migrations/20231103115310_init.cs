@@ -19,8 +19,7 @@ namespace enoca_NET_case.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CarrierName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CarrierIsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CarrierPlusDesiCost = table.Column<int>(type: "int", nullable: false),
-                    CarrierConfigurationId = table.Column<int>(type: "int", nullable: false)
+                    CarrierPlusDesiCost = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

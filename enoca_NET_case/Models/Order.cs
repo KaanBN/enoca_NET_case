@@ -8,9 +8,15 @@ namespace enoca_NET_case.Models
     public class Order
     {
         public int OrderId { get; set; }
+        [Required]
         public int CarrierId { get; set; }
+        [Required]
         public int OrderDesi { get; set; }
+        [Required]
         public DateTime OrderDate { get; set; }
+        [Required]
         public decimal OrderCarrierCost { get; set; }
+
+        public Carrier Carrier { get; set; }
     }
 }

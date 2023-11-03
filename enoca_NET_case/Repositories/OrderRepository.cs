@@ -1,4 +1,6 @@
 ﻿using enoca_NET_case.Data;
+using enoca_NET_case.DTOs;
+using enoca_NET_case.Exceptions;
 using enoca_NET_case.Models;
 
 namespace enoca_NET_case.Repositories
@@ -12,9 +14,70 @@ namespace enoca_NET_case.Repositories
             _context = context;
         }
 
-        Order IOrderRepository.AddOrder(Order order)
+        public void AddOrder(OrderDto orderDto)
         {
-            return _context.Orders.Add(order).Entity;
+            if (orderDto.OrderDesi == null)
+            {
+                throw new ValidationNotValidException("OrderDesi zorunludur");
+            }
+
+            var carrierConfs = _context.CarrierConfigurations.ToArray();
+            Order order = new Order();
+
+            foreach (var carrierConf in carrierConfs)
+            {
+                if (orderDto.OrderDesi >= carrierConf.CarrierMinDesi && orderDto.OrderDesi <= carrierConf.CarrierMaxDesi)
+                {
+                    var lowestCost = _context.CarrierConfigurations.OrderBy(x => x.Carrier.CarrierPlusDesiCost).First();
+                    var carrier2 = _context.Carriers.Find(lowestCost.CarrierId);
+                    order = new Order
+                    {
+                        CarrierId = lowestCost.CarrierId,
+                        OrderDesi = (int)orderDto.OrderDesi,
+                        OrderDate = DateTime.Now,
+                        OrderCarrierCost = (int)orderDto.OrderDesi * carrier2.CarrierPlusDesiCost
+                    };
+                    _context.Orders.Add(order);
+                    _context.SaveChanges();
+                    return;
+                }
+            }
+
+            var closestCarrier = _context.CarrierConfigurations.OrderBy(x => Math.Abs(x.CarrierMinDesi - (int)orderDto.OrderDesi)).First();
+
+
+            var carrier = _context.Carriers.Find(closestCarrier.CarrierId);
+            var carrierPlusDesiCost = carrier.CarrierPlusDesiCost;
+
+            var desiDifference = closestCarrier.CarrierMinDesi - orderDto.OrderDesi;
+
+            var orderCarrierCost = closestCarrier.CarrierCost + (desiDifference * carrierPlusDesiCost);
+
+
+            order = new Order
+            {
+                CarrierId = closestCarrier.CarrierId,
+                OrderDesi = (int)orderDto.OrderDesi,
+                OrderDate = DateTime.Now,
+                OrderCarrierCost = (decimal)orderCarrierCost
+            };
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            return;
+
+        }
+
+        public void DeleteOrder(int id)
+        {
+            var order = _context.Orders.Find(id);
+            if (order == null)
+            {
+                throw new EntityNotFoundException(id);
+            }
+            _context.Orders.Remove(order);
+            _context.SaveChanges();
         }
 
         List<Order> IOrderRepository.GetAllOrders()

@@ -1,4 +1,5 @@
-﻿using enoca_NET_case.Models;
+﻿using enoca_NET_case.DTOs;
+using enoca_NET_case.Models;
 
 namespace enoca_NET_case.Repositories
 {
@@ -6,8 +7,9 @@ namespace enoca_NET_case.Repositories
     {
         List<Order> GetAllOrders();
 
-        //add order
-        Order AddOrder(Order order);
+        void AddOrder(OrderDto orderDto);
+
+        void DeleteOrder(int id);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using enoca_NET_case.Models;
+﻿using enoca_NET_case.DTOs;
+using enoca_NET_case.Models;
 
 namespace enoca_NET_case.Repositories
 {
@@ -6,6 +7,10 @@ namespace enoca_NET_case.Repositories
     {
         List<Carrier> GetAllCarriers();
 
-        void CreateCarrier(Carrier carrier);
+        void CreateCarrier(CarrierDto carrierDto);
+
+        void UpdateCarrier(int id, CarrierDto carrierDto);
+
+        void DeleteCarrier(int id);
     }
 }

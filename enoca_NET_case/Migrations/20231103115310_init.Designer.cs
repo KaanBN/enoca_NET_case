@@ -12,7 +12,7 @@ using enoca_NET_case.Data;
 namespace enoca_NET_case.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231103082554_init")]
+    [Migration("20231103115310_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -32,9 +32,6 @@ namespace enoca_NET_case.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarrierId"));
-
-                    b.Property<int>("CarrierConfigurationId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("CarrierIsActive")
                         .HasColumnType("bit");
@@ -118,11 +115,13 @@ namespace enoca_NET_case.Migrations
 
             modelBuilder.Entity("enoca_NET_case.Models.Order", b =>
                 {
-                    b.HasOne("enoca_NET_case.Models.Carrier", null)
+                    b.HasOne("enoca_NET_case.Models.Carrier", "Carrier")
                         .WithMany("Orders")
                         .HasForeignKey("CarrierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Carrier");
                 });
 
             modelBuilder.Entity("enoca_NET_case.Models.Carrier", b =>

@@ -8,5 +8,9 @@ namespace enoca_NET_case.Services
         List<Carrier> GetAllCarriers();
 
         void CreateCarrier(CarrierDto carrierDto);
+
+        void UpdateCarrier(int id,CarrierDto carrierDto);
+
+        void DeleteCarrier(int id);
     }
 }

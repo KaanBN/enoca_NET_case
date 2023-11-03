@@ -9,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICarrierRepository, CarrierRepository>();
+builder.Services.AddScoped<ICarrierService, CarrierService>();
+builder.Services.AddScoped<ICarrierConfigurationRepository, CarrierConfigurationRepository>();
+builder.Services.AddScoped<ICarrierConfigurationService, CarrierConfigurationService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

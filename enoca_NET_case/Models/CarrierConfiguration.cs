@@ -7,9 +7,13 @@ namespace enoca_NET_case.Models
     public class CarrierConfiguration
     {
         public int CarrierConfigurationId { get; set; }
+        [Required]
         public int CarrierId { get; set; }
+        [Required]
         public int CarrierMaxDesi { get; set; }
+        [Required]
         public int CarrierMinDesi { get; set; }
+        [Required]
         public decimal CarrierCost { get; set; }
 
         public Carrier Carrier { get; set; }
