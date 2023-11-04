@@ -9,6 +9,7 @@ namespace enoca_NET_case.Data
         public AppDbContext(DbContextOptions options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public DbSet<Carrier> Carriers { get; set; }

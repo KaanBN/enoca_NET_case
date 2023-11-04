@@ -86,7 +86,7 @@ namespace enoca_NET_case.Repositories
             {
                 throw new ValidationNotValidException("CarrierId zorunludur!");
             }
-            var carrier = _context.Carriers.Find(carrierConfiguration.CarrierId);
+            var carrier = _context.Carriers.Find(carrierConfigurationDto.CarrierId);
             if (carrier == null)
             {
                 throw new EntityNotFoundException((int)carrierConfigurationDto.CarrierId);

@@ -21,7 +21,14 @@ namespace enoca_NET_case.Repositories
                 throw new ValidationNotValidException("OrderDesi zorunludur");
             }
 
-            var carrierConfs = _context.CarrierConfigurations.Where(x => x.Carrier.CarrierIsActive == true && orderDto.OrderDesi >= x.CarrierMinDesi && orderDto.OrderDesi <= x.CarrierMaxDesi).ToList();
+            var availableCarrierConfs = _context.CarrierConfigurations.Where(x => x.Carrier.CarrierIsActive == true).ToList();
+
+            if (availableCarrierConfs.Count == 0)
+            {
+                throw new ValidationNotValidException("Aktif kargo firması bulunamadı");
+            }
+
+            var carrierConfs = availableCarrierConfs.Where(x => x.CarrierMinDesi <= (int)orderDto.OrderDesi && x.CarrierMaxDesi >= (int)orderDto.OrderDesi).ToList();
 
             Order order = new Order();
 

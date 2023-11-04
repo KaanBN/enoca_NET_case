@@ -53,7 +53,7 @@ namespace enoca_NET_case.Controllers
             }
             catch (EntityNotFoundException ex)
             {
-                return NotFound($"{id} idli kurye konfigürasyonu bulunamadı.");
+                return NotFound(ex.Message);
             }
             catch (ValidationNotValidException ex)
             {
