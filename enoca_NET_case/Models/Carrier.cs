@@ -18,6 +18,7 @@ namespace enoca_NET_case.Models
 
         public List<Order> Orders { get; set; }
         public List<CarrierConfiguration> CarrierConfigurations { get; set; }
+        public List<CarrierReport> CarrierReports { get; set; }
 
     }
 }
