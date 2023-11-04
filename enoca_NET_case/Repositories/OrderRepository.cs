@@ -21,27 +21,24 @@ namespace enoca_NET_case.Repositories
                 throw new ValidationNotValidException("OrderDesi zorunludur");
             }
 
-            var carrierConfs = _context.CarrierConfigurations.Where(x => x.Carrier.CarrierIsActive == true).ToList();
+            var carrierConfs = _context.CarrierConfigurations.Where(x => x.Carrier.CarrierIsActive == true && orderDto.OrderDesi >= x.CarrierMinDesi && orderDto.OrderDesi <= x.CarrierMaxDesi).ToList();
 
             Order order = new Order();
 
-            foreach (var carrierConf in carrierConfs)
+            if (carrierConfs.Count != 0)
             {
-                if (orderDto.OrderDesi >= carrierConf.CarrierMinDesi && orderDto.OrderDesi <= carrierConf.CarrierMaxDesi)
+                var lowestCost = carrierConfs.OrderBy(x => x.CarrierCost).First();
+                var carrier2 = _context.Carriers.Find(lowestCost.CarrierId);
+                order = new Order
                 {
-                    var lowestCost = _context.CarrierConfigurations.OrderBy(x => x.Carrier.CarrierPlusDesiCost).First();
-                    var carrier2 = _context.Carriers.Find(lowestCost.CarrierId);
-                    order = new Order
-                    {
-                        CarrierId = lowestCost.CarrierId,
-                        OrderDesi = (int)orderDto.OrderDesi,
-                        OrderDate = DateTime.Now,
-                        OrderCarrierCost = (int)orderDto.OrderDesi * carrier2.CarrierPlusDesiCost
-                    };
-                    _context.Orders.Add(order);
-                    _context.SaveChanges();
-                    return;
-                }
+                    CarrierId = lowestCost.CarrierId,
+                    OrderDesi = (int)orderDto.OrderDesi,
+                    OrderDate = DateTime.Now,
+                    OrderCarrierCost = lowestCost.CarrierCost
+                };
+                _context.Orders.Add(order);
+                _context.SaveChanges();
+                return;
             }
 
             var closestCarrier = _context.CarrierConfigurations.OrderBy(x => Math.Abs(x.CarrierMinDesi - (int)orderDto.OrderDesi)).First();

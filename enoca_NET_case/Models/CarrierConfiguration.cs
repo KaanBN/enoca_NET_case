@@ -15,7 +15,7 @@ namespace enoca_NET_case.Models
         public int CarrierMinDesi { get; set; }
         [Required]
         public decimal CarrierCost { get; set; }
-
+        [ForeignKey("CarrierId")]
         public Carrier Carrier { get; set; }
     }
 }
