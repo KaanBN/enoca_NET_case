@@ -21,7 +21,8 @@ namespace enoca_NET_case.Repositories
                 throw new ValidationNotValidException("OrderDesi zorunludur");
             }
 
-            var carrierConfs = _context.CarrierConfigurations.ToArray();
+            var carrierConfs = _context.CarrierConfigurations.Where(x => x.Carrier.CarrierIsActive == true).ToList();
+
             Order order = new Order();
 
             foreach (var carrierConf in carrierConfs)
@@ -49,7 +50,7 @@ namespace enoca_NET_case.Repositories
             var carrier = _context.Carriers.Find(closestCarrier.CarrierId);
             var carrierPlusDesiCost = carrier.CarrierPlusDesiCost;
 
-            var desiDifference = closestCarrier.CarrierMinDesi - orderDto.OrderDesi;
+            var desiDifference = Math.Min(Math.Abs(closestCarrier.CarrierMinDesi - (int)orderDto.OrderDesi), Math.Abs(closestCarrier.CarrierMaxDesi - (int)orderDto.OrderDesi));
 
             var orderCarrierCost = closestCarrier.CarrierCost + (desiDifference * carrierPlusDesiCost);
 
